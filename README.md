@@ -37,5 +37,5 @@ An end-to-end retail analytics platform built on Azure and GCP.
 - All staging prices positive
 
 ## Dashboard
+![Final Dashboard](screenshots/dashboard.png)
 [View Dashboard]
-
