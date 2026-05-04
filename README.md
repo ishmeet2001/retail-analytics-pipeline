@@ -58,4 +58,5 @@ graph TD
 
 ## Dashboard
 ![Final Dashboard](screenshots/dashboard.png)
-[View Dashboard]
+
+**[View Live Dashboard](https://datastudio.google.com/reporting/6d89a1a9-6cdb-42dd-a016-72425d93b30d)**
