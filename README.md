@@ -13,9 +13,6 @@ An end-to-end retail analytics platform built on Azure and GCP.
 - **LLM Layer**: Groq Llama-3
 - **Dashboard**: Looker Studio
 
-## Dataset
-UCI Online Retail Dataset — 541K UK retail transactions (2010-2011)
-
 ## Pipeline
 1. ADF Data Flow ingests OnlineRetail.csv from Blob Storage
 2. Null CustomerIDs removed, InvoiceDate parsed to TIMESTAMP
@@ -40,11 +37,5 @@ UCI Online Retail Dataset — 541K UK retail transactions (2010-2011)
 - All staging prices positive
 
 ## Dashboard
-[View Dashboard](your_looker_studio_link_here)
+[View Dashboard]
 
-## Resume Bullet
-Built an end-to-end retail analytics platform: Azure Data Factory pipeline 
-ingesting 541K transaction records from Blob Storage to BigQuery, dbt 
-star-schema models with Soda data quality assertions, and a Groq Llama-3 
-LLM layer generating daily anomaly summaries — visualized in a Looker Studio 
-executive dashboard.
