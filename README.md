@@ -3,7 +3,27 @@
 An end-to-end retail analytics platform built on Azure and GCP.
 
 ## Architecture
-![Architecture](architecture.png)
+```mermaid
+graph TD
+    subgraph Azure [Azure Cloud]
+        A[(Blob Storage)] -->|Azure Data Factory| B(Data Ingestion)
+    end
+    
+    subgraph GCP [Google Cloud Platform]
+        B --> C[(BigQuery Raw)]
+        C -->|dbt| D[(BigQuery Star Schema)]
+        D -.->|Soda Core| Q{Data Quality Checks}
+    end
+    
+    subgraph AI [AI & Automation]
+        D -->|Python / GitHub Actions| E[Groq Llama-3 API]
+        E -->|Writes insights| D
+    end
+    
+    subgraph BI [Business Intelligence]
+        D --> F[Looker Studio Dashboard]
+    end
+```
 
 ## Stack
 - **Ingestion**: Azure Data Factory + Azure Blob Storage
