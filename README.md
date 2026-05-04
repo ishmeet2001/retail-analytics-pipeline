@@ -1,15 +1,50 @@
-Welcome to your new dbt project!
+# Retail Analytics Pipeline
 
-### Using the starter project
+An end-to-end retail analytics platform built on Azure and GCP.
 
-Try running the following commands:
-- dbt run
-- dbt test
+## Architecture
+![Architecture](architecture.png)
 
+## Stack
+- **Ingestion**: Azure Data Factory + Azure Blob Storage
+- **Warehouse**: Google BigQuery
+- **Transformation**: dbt (star schema)
+- **Data Quality**: Soda Core
+- **LLM Layer**: Groq Llama-3
+- **Dashboard**: Looker Studio
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+## Dataset
+UCI Online Retail Dataset — 541K UK retail transactions (2010-2011)
+
+## Pipeline
+1. ADF Data Flow ingests OnlineRetail.csv from Blob Storage
+2. Null CustomerIDs removed, InvoiceDate parsed to TIMESTAMP
+3. Processed CSV staged in Blob Storage
+4. Python script loads 406,829 rows into BigQuery raw_invoices
+5. dbt builds star schema: stg_invoices → dim_products, dim_customers, fct_sales
+6. Soda runs 7 data quality assertions
+7. Groq Llama-3 generates daily executive summaries
+8. Looker Studio dashboard visualizes 4 key metrics
+
+## dbt Models
+- `stg_invoices` — cleaned, filtered staging layer
+- `dim_products` — product dimension with avg price and units sold
+- `dim_customers` — customer dimension with purchase history
+- `fct_sales` — fact table with line-level sales data
+
+## Soda Checks
+- No missing CustomerIDs
+- Quantity within expected range
+- Table not empty
+- All staging quantities positive
+- All staging prices positive
+
+## Dashboard
+[View Dashboard](your_looker_studio_link_here)
+
+## Resume Bullet
+Built an end-to-end retail analytics platform: Azure Data Factory pipeline 
+ingesting 541K transaction records from Blob Storage to BigQuery, dbt 
+star-schema models with Soda data quality assertions, and a Groq Llama-3 
+LLM layer generating daily anomaly summaries — visualized in a Looker Studio 
+executive dashboard.
