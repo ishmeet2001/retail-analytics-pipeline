@@ -1,0 +1,9 @@
+
+data_source retail_bigquery:
+  type: bigquery
+  account_info_json_path: /Users/ishmeet16/Downloads/cloudpersonal-756-bc45aa7935f5.json
+  auth_scopes:
+    - https://www.googleapis.com/auth/bigquery
+    - https://www.googleapis.com/auth/cloud-platform
+  project_id: cloudpersonal-756
+  dataset: retail_raw

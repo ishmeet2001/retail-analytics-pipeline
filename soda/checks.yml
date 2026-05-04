@@ -1,0 +1,17 @@
+checks for raw_invoices:
+  - missing_count(CustomerID) = 0:
+      name: No missing CustomerIDs
+  - min(Quantity) >= -100000:
+      name: Quantity within expected range
+  - row_count > 0:
+      name: Table is not empty
+
+checks for stg_invoices:
+  - missing_count(customer_id) = 0:
+      name: No missing customer IDs in staging
+  - min(quantity) > 0:
+      name: All quantities positive after filter
+  - min(unit_price) > 0:
+      name: All prices positive after filter
+  - row_count > 0:
+      name: Staging table is not empty

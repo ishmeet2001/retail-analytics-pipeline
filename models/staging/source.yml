@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: retail_raw
+    database: cloudpersonal-756
+    schema: retail_raw
+    tables:
+      - name: raw_invoices
+        description: "Raw invoice data loaded from Azure Blob Storage"
+        columns:
+          - name: InvoiceNo
+            description: "Invoice number"
+          - name: StockCode
+            description: "Product stock code"
+          - name: Description
+            description: "Product description"
+          - name: Quantity
+            description: "Quantity purchased"
+          - name: InvoiceDate
+            description: "Date and time of invoice"
+          - name: UnitPrice
+            description: "Price per unit"
+          - name: CustomerID
+            description: "Customer identifier"
+          - name: Country
+            description: "Country of purchase"

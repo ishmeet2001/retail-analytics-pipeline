@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_invoices
+    columns:
+      - name: invoice_no
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+      - name: unit_price
+        tests:
+          - not_null
+
+  - name: dim_products
+    columns:
+      - name: stock_code
+        tests:
+          - not_null
+
+  - name: dim_customers
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+
+  - name: fct_sales
+    columns:
+      - name: invoice_no
+        tests:
+          - not_null
