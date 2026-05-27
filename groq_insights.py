@@ -22,7 +22,7 @@ SELECT
     COUNT(DISTINCT invoice_no) as total_orders,
     APPROX_TOP_COUNT(country, 1)[OFFSET(0)].value as top_country,
     APPROX_TOP_COUNT(stock_code, 1)[OFFSET(0)].value as top_product
-FROM retail_raw.fct_sales
+FROM retail_analytics.fct_sales
 GROUP BY sale_date
 ORDER BY sale_date DESC
 LIMIT 1
