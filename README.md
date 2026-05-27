@@ -61,4 +61,6 @@ OnlineRetail.csv (541K records)
 - All staging prices positive
 
 ## Dashboard
+[View Live Dashboard](https://datastudio.google.com/s/ueATKqdibN8)
+
 ![Looker Studio Dashboard](screenshots/dashboard.png)
