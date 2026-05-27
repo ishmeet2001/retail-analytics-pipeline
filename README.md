@@ -60,6 +60,12 @@ OnlineRetail.csv (541K records)
 - All staging quantities positive
 - All staging prices positive
 
+## Design Decisions
+- **Star schema over flat tables**: Separating dimensions (customers, products) from the fact table makes queries faster and the data model easier to extend for new reporting needs.
+- **dbt for transformations**: Keeps all business logic in version-controlled SQL, making transformations testable and reproducible rather than buried in scripts.
+- **Batch over streaming**: The source data is transaction-level CSV exports — batch processing fits the use case and keeps the pipeline simple without sacrificing analytical value.
+- **BigQuery as the warehouse**: Serverless, scales automatically, and integrates directly with both dbt and Looker Studio without additional infrastructure setup.
+
 ## Dashboard
 [View Live Dashboard](https://datastudio.google.com/s/ueATKqdibN8)
 
