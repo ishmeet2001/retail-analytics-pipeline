@@ -1,62 +1,64 @@
 # Retail Analytics Pipeline
 
-An end-to-end retail analytics platform built on Azure and GCP.
+An end-to-end batch data warehouse built on GCP, processing 541K+ retail transactions into analytics-ready datasets for business reporting and KPI analysis.
 
 ## Architecture
-```mermaid
-graph TD
-    subgraph Azure [Azure Cloud]
-        A[(Blob Storage)] -->|Azure Data Factory| B(Data Ingestion)
-    end
-    
-    subgraph GCP [Google Cloud Platform]
-        B --> C[(BigQuery Raw)]
-        C -->|dbt| D[(BigQuery Star Schema)]
-        D -.->|Soda Core| Q{Data Quality Checks}
-    end
-    
-    subgraph AI [AI & Automation]
-        D -->|Python / GitHub Actions| E[Groq Llama-3 API]
-        E -->|Writes insights| D
-    end
-    
-    subgraph BI [Business Intelligence]
-        D --> F[Looker Studio Dashboard]
-    end
+
+```
+OnlineRetail.csv (541K records)
+        |
+        v
+  Python Ingestion Script
+  (loads raw data into BigQuery)
+        |
+        v
+  BigQuery - raw_invoices
+        |
+        v
+     dbt ELT
+  (staging + mart layers)
+        |
+        v
+  Star Schema
+  stg_invoices --> dim_customers
+              --> dim_products
+              --> fct_sales
+        |
+        v
+  Soda Data Quality Checks
+        |
+        v
+  Looker Studio Dashboard
+  (revenue trends, top products, customer insights)
 ```
 
 ## Stack
-- **Ingestion**: Azure Data Factory + Azure Blob Storage
+- **Ingestion**: Python + BigQuery Python client
 - **Warehouse**: Google BigQuery
 - **Transformation**: dbt (star schema)
-- **Data Quality**: Soda Core
-- **LLM Layer**: Groq Llama-3
+- **Data Quality**: Soda Core + dbt schema tests
+- **Orchestration**: GitHub Actions (scheduled daily)
 - **Dashboard**: Looker Studio
 
 ## Pipeline
-1. ADF Data Flow ingests OnlineRetail.csv from Blob Storage
-2. Null CustomerIDs removed, InvoiceDate parsed to TIMESTAMP
-3. Processed CSV staged in Blob Storage
-4. Python script loads 406,829 rows into BigQuery raw_invoices
-5. dbt builds star schema: stg_invoices → dim_products, dim_customers, fct_sales
-6. Soda runs 7 data quality assertions
-7. Groq Llama-3 generates daily executive summaries
-8. Looker Studio dashboard visualizes 4 key metrics
+1. Python script loads 541K raw records into BigQuery `raw_invoices`
+2. Null CustomerIDs removed, InvoiceDate parsed to TIMESTAMP in staging (406K valid records after filtering)
+3. dbt builds star schema: `stg_invoices` --> `dim_products`, `dim_customers`, `fct_sales`
+4. Soda runs 7 data quality assertions across raw and staging layers
+5. Looker Studio dashboard visualizes key business metrics
 
 ## dbt Models
-- `stg_invoices` — cleaned, filtered staging layer
-- `dim_products` — product dimension with avg price and units sold
-- `dim_customers` — customer dimension with purchase history
-- `fct_sales` — fact table with line-level sales data
+- `stg_invoices` - cleaned, filtered staging layer (removes nulls, casts types, filters invalid rows)
+- `dim_products` - product dimension with avg price and total units sold
+- `dim_customers` - customer dimension with purchase history and total spend
+- `fct_sales` - fact table with line-level sales data and monthly partitioning
 
 ## Soda Checks
-- No missing CustomerIDs
+- No missing CustomerIDs (raw + staging)
 - Quantity within expected range
 - Table not empty
 - All staging quantities positive
 - All staging prices positive
 
 ## Dashboard
-![Final Dashboard](screenshots/dashboard.png)
-
-**[View Live Dashboard](https://datastudio.google.com/reporting/6d89a1a9-6cdb-42dd-a016-72425d93b30d)**
+![Looker Studio Dashboard](screenshots/dashboard.png)
